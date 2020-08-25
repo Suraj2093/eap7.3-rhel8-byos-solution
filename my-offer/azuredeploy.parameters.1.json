@@ -3,7 +3,7 @@
     "value": "eastus"
   },
   "vmName": {
-    "value": "jbosseap-rhel8-byos-vm3"
+    "value": "jbosseap73-rhel8-byos-vm1"
   },
   "adminUsername": {
     "value": "demouser"
@@ -18,24 +18,24 @@
     "value": "Standard_DS2_v2"
   },
   "virtualNetworkNewOrExisting": {
-    "value": "new"
+    "value": "existing"
   },
   "virtualNetworkName": {
-    "value": "external-rhel8-byos-vnet"
+    "value": "external-rhel-vnet"
   },
   "addressPrefixes": {
     "value": [
-      "10.1.0.0/16"
+      "10.0.0.0/16"
     ]
   },
   "subnetName": {
-    "value": "external-rhel8-byos-subnet1"
+    "value": "external-rhel-subnet"
   },
   "subnetPrefix": {
-    "value": "10.1.0.0/24"
+    "value": "10.0.1.0/24"
   },
   "virtualNetworkResourceGroupName": {
-    "value": "EAP72-RHEL8-byos-Soln-Test-Rg3"
+    "value": "PIP-test-rg1"
   },
   "publicIpNewOrExisting": {
     "value": "existing"
@@ -59,10 +59,10 @@
     "value": "On"
   },
   "storageNewOrExisting": {
-    "value": "new"
+    "value": "existing"
   },
   "storageAccountName": {
-    "value": "diagstrgrhel8"
+    "value": "eaprheldiagstrg"
   },
   "storageAccountType": {
     "value": "Standard_LRS"
