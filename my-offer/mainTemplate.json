@@ -184,7 +184,7 @@
             }
         },
         "_artifactsLocation": {
-            "defaultValue": "https://raw.githubusercontent.com/Suraj2093/eap7.2-rhel8-byos-solution/master/my-offer/",
+            "defaultValue": "https://raw.githubusercontent.com/Suraj2093/eap7.3-rhel8-byos-solution/master/my-offer/",
             "type": "String",
             "metadata": {
                 "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated"
@@ -206,7 +206,7 @@
         "publicIpAddressId": {
             "id": "[resourceId(parameters('publicIpResourceGroupName'), 'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]"
         },
-        "userStorageAccountName": "eap72onrhel8imgdisks",
+        "userStorageAccountName": "eap73onrhel8imgdisks",
         "userStorageContainerName": "vhds",
         "osDiskVhdName": "[concat('http://',variables('userStorageAccountName'),'.blob.core.windows.net/',variables('userStorageContainerName'),'/',parameters('vmName'),'osDisk.vhd')]",
         "linuxConfiguration": {
@@ -225,7 +225,7 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-05-01",
-            "name": "pid-18daf76a-7eb0-4cbd-8d91-9718bd030db9",
+            "name": "pid-0c595e9e-8958-40ce-bf98-c9b029a679f1",
             "properties": {
                 "mode": "Incremental",
                 "template": {
@@ -399,7 +399,7 @@
                         "caching": "ReadWrite",
                         "createOption": "FromImage",
                         "image": {
-                            "uri": "https://eap72onrhel8imgdisks.blob.core.windows.net/vhds/rhel8-byos-img-vm20200706134815.vhd"
+                            "uri": "https://eap73onrhel8imgdisks.blob.core.windows.net/vhds/rhel8-byos-img-vm120200706163323.vhd"
                         },
                         "vhd": {
                             "uri": "[variables('osDiskVhdName')]"
