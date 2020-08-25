@@ -1,0 +1,445 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "defaultValue": "[resourceGroup().location]",
+            "type": "String",
+            "metadata": {
+                "description": "Location for all resources"
+            }
+        },
+        "vmName": {
+            "type": "String",
+            "metadata": {
+                "description": "Name for the Virtual Machine."
+            }
+        },
+        "adminUsername": {
+            "type": "String",
+            "metadata": {
+                "description": "Linux VM user account name"
+            }
+        },
+        "authenticationType": {
+            "defaultValue": "password",
+            "allowedValues": [
+                "password",
+                "sshPublicKey"
+            ],
+            "type": "String",
+            "metadata": {
+                "description": "Type of authentication to use on the Virtual Machine"
+            }
+        },
+        "adminPasswordOrSSHKey": {
+            "type": "SecureString",
+            "metadata": {
+                "description": "Password or SSH key for the Virtual Machine"
+            }
+        },
+        "vmSize": {
+            "defaultValue": "Standard_DS2_v2",
+            "type": "String",
+            "metadata": {
+                "description": "The size of the Virtual Machine"
+            }
+        },
+        "bootDiagnostics": {
+            "defaultValue": "On",
+            "allowedValues": [
+                "Off",
+                "On"
+            ],
+            "type": "String",
+            "metadata": {
+                "description": "Capture serial console outputs and screenshots of the virtual machine running on a host to help diagnose startup issues"
+            }
+        },
+        "storageNewOrExisting": {
+            "defaultValue": "new",
+            "type": "String",
+            "metadata": {
+                "description": "Determines whether or not a new storage account should be provisioned."
+            }
+        },
+        "storageAccountName": {
+            "defaultValue": "[concat('storage', uniqueString(resourceGroup().id))]",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the storage account"
+            }
+        },
+        "storageAccountType": {
+            "defaultValue": "Standard_LRS",
+            "type": "String",
+            "metadata": {
+                "description": "Storage account type"
+            }
+        },
+        "virtualNetworkNewOrExisting": {
+            "defaultValue": "new",
+            "type": "String",
+            "metadata": {
+                "description": "Determines whether or not a new virtual network should be provisioned."
+            }
+        },
+        "virtualNetworkName": {
+            "defaultValue": "VirtualNetwork",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the virtual network"
+            }
+        },
+        "addressPrefixes": {
+            "defaultValue": [
+                "10.0.0.0/16"
+            ],
+            "type": "Array",
+            "metadata": {
+                "description": "Address prefix of the virtual network"
+            }
+        },
+        "subnetName": {
+            "defaultValue": "default",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the subnet"
+            }
+        },
+        "subnetPrefix": {
+            "defaultValue": "10.0.0.0/24",
+            "type": "String",
+            "metadata": {
+                "description": "Subnet prefix of the virtual network"
+            }
+        },
+        "virtualNetworkResourceGroupName": {
+            "defaultValue": "[resourceGroup().name]",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the resource group for the existing virtual network"
+            }
+        },
+        "publicIpNewOrExisting": {
+            "defaultValue": "new",
+            "type": "String",
+            "metadata": {
+                "description": "Determines whether or not a new public ip should be provisioned."
+            }
+        },
+        "publicIpName": {
+            "defaultValue": "PublicIp",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the public ip address"
+            }
+        },
+        "publicIpDns": {
+            "defaultValue": "[concat('jbosseap-server', uniqueString(resourceGroup().id))]",
+            "type": "String",
+            "metadata": {
+                "description": "DNS of the public ip address for the VM"
+            }
+        },
+        "publicIpResourceGroupName": {
+            "defaultValue": "[resourceGroup().name]",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the resource group for the public ip address"
+            }
+        },
+        "publicIPAllocationMethod": {
+            "defaultValue": "Dynamic",
+            "allowedValues": [
+                "Dynamic",
+                "Static"
+            ],
+            "type": "String",
+            "metadata": {
+                "description": "Allocation method for the public ip address"
+            }
+        },
+        "publicIpSku": {
+            "defaultValue": "Basic",
+            "allowedValues": [
+                "Basic",
+                "Standard"
+            ],
+            "type": "String",
+            "metadata": {
+                "description": "Name of the resource group for the public ip address"
+            }
+        },
+        "jbossEAPUserName": {
+            "type": "String",
+            "metadata": {
+                "description": "User name for JBoss EAP Manager"
+            }
+        },
+        "jbossEAPPassword": {
+            "type": "SecureString",
+            "metadata": {
+                "description": "Password for JBoss EAP Manager"
+            }
+        },
+        "_artifactsLocation": {
+            "defaultValue": "https://raw.githubusercontent.com/Suraj2093/eap7.2-rhel8-byos-solution/master/my-offer/",
+            "type": "String",
+            "metadata": {
+                "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated"
+            }
+        },
+        "_artifactsLocationSasToken": {
+            "defaultValue": "",
+            "type": "SecureString",
+            "metadata": {
+                "description": "The sasToken required to access _artifactsLocation.  When the template is deployed using the accompanying scripts, a sasToken will be automatically generated"
+            }
+        }
+    },
+    "variables": {
+        "singlequote": "'",
+        "nicName": "[concat(uniquestring(resourceGroup().id), '-nic')]",
+        "networkSecurityGroupName": "jbosseap-nsg",
+        "bootdiagnosticscheck": "[and(equals(parameters('storageNewOrExisting'), 'new'), equals(parameters('bootDiagnostics'),'On'))]",
+        "publicIpAddressId": {
+            "id": "[resourceId(parameters('publicIpResourceGroupName'), 'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]"
+        },
+        "userStorageAccountName": "eap72onrhel8imgdisks",
+        "userStorageContainerName": "vhds",
+        "osDiskVhdName": "[concat('http://',variables('userStorageAccountName'),'.blob.core.windows.net/',variables('userStorageContainerName'),'/',parameters('vmName'),'osDisk.vhd')]",
+        "linuxConfiguration": {
+            "disablePasswordAuthentication": true,
+            "ssh": {
+                "publicKeys": [
+                    {
+                        "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
+                        "keyData": "[parameters('adminPasswordOrSSHKey')]"
+                    }
+                ]
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-05-01",
+            "name": "pid-18daf76a-7eb0-4cbd-8d91-9718bd030db9",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": []
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-06-01",
+            "name": "[parameters('storageAccountName')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "[parameters('storageAccountType')]"
+            },
+            "kind": "Storage",
+            "condition": "[variables('bootdiagnosticscheck')]"
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2019-11-01",
+            "name": "[parameters('publicIpName')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "[parameters('publicIpSku')]"
+            },
+            "properties": {
+                "publicIPAllocationMethod": "[parameters('publicIPAllocationMethod')]",
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('publicIpDns')]"
+                }
+            },
+            "condition": "[equals(parameters('publicIpNewOrExisting'), 'new')]"
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2019-11-01",
+            "name": "[variables('networkSecurityGroupName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "default-allow-ssh",
+                        "properties": {
+                            "description": "Allow SSH",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "22",
+                            "sourceAddressPrefix": "Internet",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1000,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "default-allow-eap-admin",
+                        "properties": {
+                            "description": "Allow EAP/ADMIN",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "9990",
+                            "sourceAddressPrefix": "Internet",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1020,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "default-allow-eap",
+                        "properties": {
+                            "description": "Allow WEB/EAP",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "8080",
+                            "sourceAddressPrefix": "Internet",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1010,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2019-11-01",
+            "name": "[parameters('virtualNetworkName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
+            ],
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": "[parameters('addressPrefixes')]"
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('subnetName')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('subnetPrefix')]",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+                            }
+                        }
+                    }
+                ]
+            },
+            "condition": "[equals(parameters('virtualNetworkNewOrExisting'), 'new')]"
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2019-11-01",
+            "name": "[variables('nicName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/publicIPAddresses/', parameters('publicIpName'))]",
+                "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
+            ],
+            "properties": {
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+                },
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": "[if(not(equals(parameters('publicIpNewOrExisting'), 'none')), variables('publicIpAddressId') , json('null'))]",
+                            "subnet": {
+                                "id": "[resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets/', parameters('virtualNetworkName'), parameters('subnetName'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2019-12-01",
+            "name": "[parameters('vmName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[if(equals(parameters('bootDiagnostics'),'On'), parameters('storageAccountName'), variables('networkSecurityGroupName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+            ],
+            "plan": {
+                "name": "rhel-lvm8",
+                "publisher": "redhat",
+                "product": "rhel-byos"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('vmSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('vmName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPasswordOrSSHKey')]",
+                    "linuxConfiguration": "[if(equals(parameters('authenticationType'), 'password'), json('null'), variables('linuxConfiguration'))]"
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "name": "[concat(parameters('vmName'),'_OSDisk')]",
+                        "osType": "Linux",
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage",
+                        "image": {
+                            "uri": "https://eap72onrhel8imgdisks.blob.core.windows.net/vhds/rhel8-byos-img-vm20200706134815.vhd"
+                        },
+                        "vhd": {
+                            "uri": "[variables('osDiskVhdName')]"
+                        }
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": "[if(equals(parameters('bootDiagnostics'),'On'), json(concat('{\"bootDiagnostics\": {\"enabled\": true,\"storageUri\": \"https://', parameters('storageAccountName'), '.blob.core.windows.net', '\"}}')), json(concat('{\"bootDiagnostics\": {\"enabled\": false}}')))]"
+            }
+        },                
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2019-12-01",
+            "name": "[concat(parameters('vmName'),'/jbosseap-setup-extension')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Azure.Extensions",
+                "type": "CustomScript",
+                "typeHandlerVersion": "2.0",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "fileUris": [
+                        "[uri(parameters('_artifactsLocation'), concat('scripts/jbosseap-setup-redhat.sh', parameters('_artifactsLocationSasToken')))]"
+                    ]
+                },
+                "protectedSettings": {
+                    "commandToExecute": "[concat('sh jbosseap-setup-redhat.sh',' ',parameters('jbossEAPUserName'),' ',variables('singlequote'),parameters('jbossEAPPassword'),variables('singlequote'))]"
+                }
+            }
+        }
+    ],
+    "outputs": {
+    }
+}

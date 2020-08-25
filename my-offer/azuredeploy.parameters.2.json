@@ -1,0 +1,67 @@
+{
+  "location": {
+    "value": "eastus"
+  },
+  "vmName": {
+    "value": "jbosseap-rhel8-byos-vm2"
+  },
+  "adminUsername": {
+    "value": "demouser"
+  },
+  "authenticationType": {
+    "value": "sshPublicKey"
+  },
+  "adminPasswordOrSSHKey": {
+    "value": "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAsvQd8Ie4w+cl4irCajWjEnfoa+XQ+c0z7O/ruFEPbOD2Gt4tU9XwoPWVS1ehAziAg8qzKHEZ0gPvSAwIVFqXkxsI3cofl1U7/aU0ELipbc4u/gqj/gDn3WS9Y2w4iGU3/4ifPZYOL5nN9lGS2ixz3Xp7wX22/L8H2RdAKnQYKdS+eWYy/RCTvc1CAXphvEXEDFYp0m0KE9VxBSXNHsvdCI8DyUjQWvNRgKRQowUSAvwZBBH6YlXqQhyPCEDFfcriwTKZ9e56DzulIHjgm35Oucs7Mdx1L0+0/eoZ1CM5TxwfXec1YVGjz+9jgb8GGe+9H06yvFsjAUbJ70dj9UXIDw=="
+  },
+  "vmSize": {
+    "value": "Standard_DS2_v2"
+  },
+  "virtualNetworkNewOrExisting": {
+    "value": "existing"
+  },
+  "virtualNetworkName": {
+    "value": "external-rhel-vnet"
+  },
+  "addressPrefixes": {
+    "value": [
+      "10.0.0.0/16"
+    ]
+  },
+  "subnetName": {
+    "value": "external-rhel-subnet"
+  },
+  "subnetPrefix": {
+    "value": "10.0.1.0/24"
+  },
+  "virtualNetworkResourceGroupName": {
+    "value": "PIP-test-rg1"
+  },
+  "publicIpNewOrExisting": {
+    "value": "new"
+  },
+  "publicIpName": {
+    "value": "rhel8-byos-pip1"
+  },
+  "publicIpDns": {
+    "value": "rhel8-byos-pip1"
+  },
+  "publicIpResourceGroupName": {
+    "value": "EAP72-RHEL8-byos-Soln-Test-Rg2"
+  },
+  "publicIPAllocationMethod": {
+    "value": "Static"
+  },
+  "publicIpSku": {
+    "value": "Basic"
+  },
+  "bootDiagnostics": {
+    "value": "Off"
+  },
+  "jbossEAPUserName": {
+    "value": "demouser1"
+  },
+  "jbossEAPPassword": {
+    "value": "demoPassword1!"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "location": {
+    "value": "eastus"
+  },
+  "vmName": {
+    "value": "jbosseap-rhel8-byos-vm3"
+  },
+  "adminUsername": {
+    "value": "demouser"
+  },
+  "authenticationType": {
+    "value": "password"
+  },
+  "adminPasswordOrSSHKey": {
+    "value": "demoPassword1!"
+  },
+  "vmSize": {
+    "value": "Standard_DS2_v2"
+  },
+  "virtualNetworkNewOrExisting": {
+    "value": "new"
+  },
+  "virtualNetworkName": {
+    "value": "external-rhel8-byos-vnet"
+  },
+  "addressPrefixes": {
+    "value": [
+      "10.1.0.0/16"
+    ]
+  },
+  "subnetName": {
+    "value": "external-rhel8-byos-subnet1"
+  },
+  "subnetPrefix": {
+    "value": "10.1.0.0/24"
+  },
+  "virtualNetworkResourceGroupName": {
+    "value": "EAP72-RHEL8-byos-Soln-Test-Rg3"
+  },
+  "publicIpNewOrExisting": {
+    "value": "existing"
+  },
+  "publicIpName": {
+    "value": "rhel77-pip1"
+  },
+  "publicIpDns": {
+    "value": "rhel77-pip1"
+  },
+  "publicIpResourceGroupName": {
+    "value": "PIP-test-rg1"
+  },
+  "publicIPAllocationMethod": {
+    "value": "Dynamic"
+  },
+  "publicIpSku": {
+    "value": "Basic"
+  },
+  "bootDiagnostics": {
+    "value": "On"
+  },
+  "storageNewOrExisting": {
+    "value": "new"
+  },
+  "storageAccountName": {
+    "value": "diagstrgrhel8"
+  },
+  "storageAccountType": {
+    "value": "Standard_LRS"
+  },
+  "jbossEAPUserName": {
+    "value": "demouser1"
+  },
+  "jbossEAPPassword": {
+    "value": "demoPassword1!"
+  }
+}
