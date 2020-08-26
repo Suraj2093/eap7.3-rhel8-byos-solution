@@ -206,9 +206,6 @@
         "publicIpAddressId": {
             "id": "[resourceId(parameters('publicIpResourceGroupName'), 'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]"
         },
-        "userStorageAccountName": "eap73onrhel8imgdisks",
-        "userStorageContainerName": "vhds",
-        "osDiskVhdName": "[concat('http://',variables('userStorageAccountName'),'.blob.core.windows.net/',variables('userStorageContainerName'),'/',parameters('vmName'),'osDisk.vhd')]",
         "linuxConfiguration": {
             "disablePasswordAuthentication": true,
             "ssh": {
@@ -378,9 +375,9 @@
                 "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
             ],
             "plan": {
-                "name": "rhel-lvm8",
+                "name": "eap73-rhel8",
                 "publisher": "redhat",
-                "product": "rhel-byos"
+                "product": "eap73-rhel8-byos"
             },
             "properties": {
                 "hardwareProfile": {
@@ -393,17 +390,16 @@
                     "linuxConfiguration": "[if(equals(parameters('authenticationType'), 'password'), json('null'), variables('linuxConfiguration'))]"
                 },
                 "storageProfile": {
+                    "imageReference": {
+                        "publisher": "redhat",
+                        "offer": "eap73-rhel8-byos",
+                        "sku": "eap73-rhel8",
+                        "version": "latest"
+                    },
                     "osDisk": {
                         "name": "[concat(parameters('vmName'),'_OSDisk')]",
-                        "osType": "Linux",
                         "caching": "ReadWrite",
-                        "createOption": "FromImage",
-                        "image": {
-                            "uri": "https://eap73onrhel8imgdisks.blob.core.windows.net/vhds/rhel8-byos-img-vm120200706163323.vhd"
-                        },
-                        "vhd": {
-                            "uri": "[variables('osDiskVhdName')]"
-                        }
+                        "createOption": "FromImage"
                     }
                 },
                 "networkProfile": {
