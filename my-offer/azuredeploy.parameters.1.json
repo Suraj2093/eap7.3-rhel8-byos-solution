@@ -1,6 +1,6 @@
 {
   "location": {
-    "value": "eastus"
+    "value": "centralus"
   },
   "vmName": {
     "value": "jbosseap73-rhel8-byos-vm1"
@@ -15,39 +15,39 @@
     "value": "demoPassword1!"
   },
   "vmSize": {
-    "value": "Standard_DS2_v2"
+    "value": "Standard_B4ms"
   },
   "virtualNetworkNewOrExisting": {
     "value": "existing"
   },
   "virtualNetworkName": {
-    "value": "external-rhel-vnet"
+    "value": "external-VNET"
   },
   "addressPrefixes": {
     "value": [
-      "10.0.0.0/16"
+      "10.5.0.0/16"
     ]
   },
   "subnetName": {
-    "value": "external-rhel-subnet"
+    "value": "eap-rhel-subnet"
   },
   "subnetPrefix": {
-    "value": "10.0.1.0/24"
+    "value": "10.5.2.0/24"
   },
   "virtualNetworkResourceGroupName": {
-    "value": "PIP-test-rg1"
+    "value": "External-VNET-Rg1"
   },
   "publicIpNewOrExisting": {
     "value": "existing"
   },
   "publicIpName": {
-    "value": "rhel77-pip1"
+    "value": "external-rhel-pip2"
   },
   "publicIpDns": {
-    "value": "rhel77-pip1"
+    "value": "external-rhel-pip2"
   },
   "publicIpResourceGroupName": {
-    "value": "PIP-test-rg1"
+    "value": "External-VNET-Rg1"
   },
   "publicIPAllocationMethod": {
     "value": "Dynamic"
@@ -62,7 +62,7 @@
     "value": "existing"
   },
   "storageAccountName": {
-    "value": "eaprheldiagstrg"
+    "value": "diagnosticstrgg"
   },
   "storageAccountType": {
     "value": "Standard_LRS"
