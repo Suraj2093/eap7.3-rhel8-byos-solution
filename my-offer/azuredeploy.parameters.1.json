@@ -1,9 +1,9 @@
 {
   "location": {
-    "value": "centralus"
+    "value": "westus"
   },
   "vmName": {
-    "value": "jbosseap73-rhel8-byos-vm1"
+    "value": "EAP73-RHEL8-BYOS-vm3"
   },
   "adminUsername": {
     "value": "demouser"
@@ -15,54 +15,51 @@
     "value": "demoPassword1!"
   },
   "vmSize": {
-    "value": "Standard_B4ms"
+    "value": "Standard_DS2_v2"
   },
   "virtualNetworkNewOrExisting": {
-    "value": "existing"
+    "value": "new"
   },
   "virtualNetworkName": {
-    "value": "external-VNET"
+    "value": "VirtualNetwork"
   },
   "addressPrefixes": {
     "value": [
-      "10.5.0.0/16"
+      "10.6.0.0/16"
     ]
   },
   "subnetName": {
-    "value": "eap-rhel-subnet"
+    "value": "Subnet-1"
   },
   "subnetPrefix": {
-    "value": "10.5.2.0/24"
+    "value": "10.6.0.0/24"
   },
   "virtualNetworkResourceGroupName": {
-    "value": "External-VNET-Rg1"
+    "value": "EAP73-RHEL8-byos-Soln-Test-Rg3"
   },
   "publicIpNewOrExisting": {
-    "value": "existing"
+    "value": "new"
   },
   "publicIpName": {
-    "value": "external-rhel-pip2"
+    "value": "EAP73-RHEL8-BYOS-vm3-ip"
   },
   "publicIpDns": {
-    "value": "external-rhel-pip2"
+    "value": "eap73-rhel8-byos-vm3-d5d528889f"
   },
   "publicIpResourceGroupName": {
-    "value": "External-VNET-Rg1"
+    "value": "EAP73-RHEL8-byos-Soln-Test-Rg3"
   },
   "publicIPAllocationMethod": {
     "value": "Dynamic"
-  },
-  "publicIpSku": {
-    "value": "Basic"
   },
   "bootDiagnostics": {
     "value": "On"
   },
   "storageNewOrExisting": {
-    "value": "existing"
+    "value": "new"
   },
   "storageAccountName": {
-    "value": "diagnosticstrgg"
+    "value": "eap73rhe9487b2c6dc"
   },
   "storageAccountType": {
     "value": "Standard_LRS"
