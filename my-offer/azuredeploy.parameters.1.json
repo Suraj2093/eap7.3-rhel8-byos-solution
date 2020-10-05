@@ -3,7 +3,7 @@
     "value": "eastus"
   },
   "vmName": {
-    "value": "EAP73-RHEL8-BYOS-vm4"
+    "value": "EAP73-RHEL8-byos-VM1"
   },
   "adminUsername": {
     "value": "demouser"
@@ -25,32 +25,44 @@
   },
   "addressPrefixes": {
     "value": [
-      "10.3.0.0/16"
+      "10.10.0.0/16"
     ]
   },
   "subnetName": {
     "value": "Subnet-1"
   },
   "subnetPrefix": {
-    "value": "10.3.0.0/24"
+    "value": "10.10.0.0/24"
   },
   "virtualNetworkResourceGroupName": {
-    "value": "EAP73-RHEL8-byos-Soln-Test-Rg4"
+    "value": "EAP73-RHEL8-byos-Soln-Test-Rg1"
   },
   "publicIpNewOrExisting": {
-    "value": "none"
+    "value": "new"
+  },
+  "publicIpName": {
+    "value": "EAP73-RHEL8-byos-VM1-ip"
   },
   "publicIpDns": {
-    "value": ""
+    "value": "eap73-rhel8-byos-vm1-181064a6e4"
   },
   "publicIpResourceGroupName": {
-    "value": "EAP73-RHEL8-byos-Soln-Test-Rg4"
+    "value": "EAP73-RHEL8-byos-Soln-Test-Rg1"
   },
-  "publicIpSku": {
-    "value": "Basic"
+  "publicIPAllocationMethod": {
+    "value": "Dynamic"
   },
   "bootDiagnostics": {
-    "value": "Off"
+    "value": "On"
+  },
+  "storageNewOrExisting": {
+    "value": "new"
+  },
+  "storageAccountName": {
+    "value": "eap73rhe1b8fc4ad08"
+  },
+  "storageAccountType": {
+    "value": "Standard_LRS"
   },
   "jbossEAPUserName": {
     "value": "demouser1"
