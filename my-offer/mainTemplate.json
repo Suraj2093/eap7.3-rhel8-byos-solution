@@ -151,10 +151,6 @@
         },
         "publicIPAllocationMethod": {
             "defaultValue": "Dynamic",
-            "allowedValues": [
-                "Dynamic",
-                "Static"
-            ],
             "type": "String",
             "metadata": {
                 "description": "Allocation method for the public ip address"
