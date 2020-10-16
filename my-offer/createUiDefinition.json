@@ -22,9 +22,7 @@
                 "toolTip": "Linux VM user account name",
                 "osPlatform": "Linux",
                 "constraints": {
-                    "required": true,
-                    "regex": "^[a-zA-Z]+[a-zA-Z0-9_-]{1,64}$",
-                    "validationMessage": "The value must be between 1 and 64 characters long."
+                    "required": true
                 }
             },
             {
@@ -231,7 +229,7 @@
             "subnetPrefix": "[steps('VirtualMachineConfig').virtualNetwork.subnets.subnet1.addressPrefix]",
             "virtualNetworkResourceGroupName": "[steps('VirtualMachineConfig').virtualNetwork.resourceGroup]",
 
-            "publicIpNewOrExisting": "[steps('VirtualMachineConfig').publicIpAddress.newOrExistingOrNone]",
+            "publicIpNewOrExistingOrNone": "[steps('VirtualMachineConfig').publicIpAddress.newOrExistingOrNone]",
             "publicIpName": "[steps('VirtualMachineConfig').publicIpAddress.name]",
             "publicIpDns": "[steps('VirtualMachineConfig').publicIpAddress.domainNameLabel]",
             "publicIpResourceGroupName": "[steps('VirtualMachineConfig').publicIpAddress.resourceGroup]",
@@ -242,6 +240,7 @@
             "storageNewOrExisting": "[steps('VirtualMachineConfig').storageAccountType.newOrExisting]",
             "storageAccountName": "[steps('VirtualMachineConfig').storageAccountType.name]",
             "storageAccountType": "[steps('VirtualMachineConfig').storageAccountType.type]",
+            "storageAccountKind": "[steps('VirtualMachineConfig').storageAccountType.kind]",
             
             "jbossEAPUserName": "[steps('jbossEAPSettings').jbossEAPUserName]",
             "jbossEAPPassword": "[steps('jbossEAPSettings').jbossEAPPassword]"
